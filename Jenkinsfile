@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.12'
+            reuseNode true
+        }
+    }
 
     stages {
         stage('Test') {
