@@ -1,0 +1,4 @@
+fastapi==0.162.4
+httpx
+httpx2
+groq
