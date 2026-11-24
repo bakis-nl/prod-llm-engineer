@@ -12,6 +12,7 @@ pipeline {
                       prod-llm-python312:latest \
                       sh -c '
                         set -eu
+                        git ls-files --error-unmatch requirements.txt requirements-dev.txt
                         ci_env="$(mktemp -d)"
                         trap "rm -rf \\"$ci_env\\"" EXIT
                         python3.12 -m venv "$ci_env"
