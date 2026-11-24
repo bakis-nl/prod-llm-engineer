@@ -7,9 +7,6 @@ pipeline {
                 sh ''' 
                     set -euo pipefail
                     docker run --rm \
-                      -e USE_MOCK_LLM="$USE_MOCK_LLM" \
-                      -e MODEL="$MODEL" \
-                      -e GROQ_API_KEY="$GROQ_API_KEY" \
                       -v "$WORKSPACE":/workspace \
                       -w /workspace \
                       prod-llm-python312:latest \
