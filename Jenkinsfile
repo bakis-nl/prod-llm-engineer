@@ -1,9 +1,13 @@
 pipeline {
-    agent { 
-        label 'python312' 
-    }
+    agent none
     stages {
         stage('Test') {
+            agent {
+                docker {
+                    image 'prod-llm-python312:latest'
+                    reuseNode true
+                }
+            }
             steps {
                 sh '''
                     set -eu
