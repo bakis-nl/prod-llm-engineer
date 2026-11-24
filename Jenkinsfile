@@ -1,11 +1,7 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.12'
-            reuseNode true
-        }
+    agent { 
+        label 'python312' 
     }
-
     stages {
         stage('Test') {
             steps {
