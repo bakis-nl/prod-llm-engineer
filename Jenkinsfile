@@ -1,18 +1,11 @@
 pipeline {
     agent any
 
-    '''
-    environment {
-        // USE_MOCK_LLM = "true"
-        // MODEL = "mock-model"
-        // GROQ_API_KEY = "test-dummy-key"
-    }
-    '''
     stages {
         stage('Test') {
             steps {
                 sh ''' 
-                    set -eu
+                    set -euo pipefail
                     docker run --rm \
                       -e USE_MOCK_LLM="$USE_MOCK_LLM" \
                       -e MODEL="$MODEL" \
@@ -21,7 +14,7 @@ pipeline {
                       -w /workspace \
                       prod-llm-python312:latest \
 
-                    set -eu
+                    set -ceu
                     ci_env="$(mktemp -d)"
                     trap 'rm -rf "$ci_env"' EXIT
                     
