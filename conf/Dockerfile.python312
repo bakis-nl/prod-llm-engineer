@@ -1,0 +1,16 @@
+FROM debian:13-slim
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    UV_PYTHON_INSTALL_DIR=/opt/uv-python \
+    PATH="/opt/uv-python/cpython-3.12.*/bin:/root/.local/bin:/usr/local/bin:${PATH}"
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates curl git \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -LsSf https://astral.sh/uv/install.sh | sh \
+    && ln -sf /root/.local/bin/uv /usr/local/bin/uv \
+    && /root/.local/bin/uv python install 3.12 \
+    && PYTHON312_BIN="$(find /opt/uv-python -type f -name 'python3.12' | head -n 1)" \
+    && ln -sf "$PYTHON312_BIN" /usr/local/bin/python3.12
+
+WORKDIR /workspace
