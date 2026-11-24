@@ -1,5 +1,12 @@
 pipeline {
     agent none
+
+    environment {
+        // USE_MOCK_LLM = "true"
+        // MODEL = "mock-model"
+        // GROQ_API_KEY = "test-dummy-key"
+    }
+
     stages {
         stage('Test') {
             agent {
@@ -9,14 +16,12 @@ pipeline {
                 }
             }
             steps {
-                sh '''
+                sh '''                    
                     set -eu
 
                     ci_env="$(mktemp -d)"
                     trap 'rm -rf "$ci_env"' EXIT
-                    command -v python3.12 || true
-                    python3.12 --version || true
-                    command -v python3.12 || true
+                    
                     python3.12 -m venv "$ci_env"
                     "$ci_env/bin/python" -m pip install -r requirements-dev.txt
                     "$ci_env/bin/python" -m pytest -q
